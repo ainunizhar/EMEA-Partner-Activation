@@ -1,0 +1,102 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "pd_vendors",
+  "position": {
+    "x": 440,
+    "y": 410,
+    "z": 1000,
+    "width": 820,
+    "height": 290,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "VendorTies"
+                    }
+                  },
+                  "Property": "Vendor"
+                }
+              },
+              "queryRef": "VendorTies.Vendor",
+              "nativeQueryRef": "Vendor"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "VendorTies"
+                    }
+                  },
+                  "Property": "Relationship"
+                }
+              },
+              "queryRef": "VendorTies.Relationship",
+              "nativeQueryRef": "Relationship"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "VendorTies"
+                    }
+                  },
+                  "Property": "Confidence"
+                }
+              },
+              "queryRef": "VendorTies.Confidence",
+              "nativeQueryRef": "Confidence"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "VendorTies"
+                    }
+                  },
+                  "Property": "Evidence URL"
+                }
+              },
+              "queryRef": "VendorTies.Evidence URL",
+              "nativeQueryRef": "Evidence URL"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Vendor partnerships'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

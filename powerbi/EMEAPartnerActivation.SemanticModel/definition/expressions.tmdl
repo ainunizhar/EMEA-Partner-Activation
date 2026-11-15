@@ -1,0 +1,4 @@
+expression DataFolder = "C:\Portfolio\powerbi-dashboards\data\" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
+	lineageTag: fe9dfa5f-2f25-5d4e-b6ce-42eeced0c786
+
+	annotation PBI_ResultType = Text

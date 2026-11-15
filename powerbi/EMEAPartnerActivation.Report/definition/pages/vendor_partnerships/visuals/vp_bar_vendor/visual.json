@@ -1,0 +1,96 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "vp_bar_vendor",
+  "position": {
+    "x": 20,
+    "y": 210,
+    "z": 1000,
+    "width": 500,
+    "height": 490,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "VendorTies"
+                    }
+                  },
+                  "Property": "Vendor"
+                }
+              },
+              "queryRef": "VendorTies.Vendor",
+              "nativeQueryRef": "Vendor"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "VendorTies"
+                    }
+                  },
+                  "Property": "Partners With Vendor"
+                }
+              },
+              "queryRef": "VendorTies.Partners With Vendor",
+              "nativeQueryRef": "Partners With Vendor"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "VendorTies"
+                  }
+                },
+                "Property": "Partners With Vendor"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Partners per vendor'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

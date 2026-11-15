@@ -1,0 +1,12 @@
+relationship 4b5e638e-3917-51ac-82b8-59f1156065b7
+	fromColumn: PartnerServices.'Partner ID'
+	toColumn: Partners.'Partner ID'
+
+relationship 9397da64-d05f-5a14-8b03-905109fa94eb
+	crossFilteringBehavior: bothDirections
+	fromColumn: Partners.'Partner Key'
+	toColumn: PartnerDim.'Partner Key'
+
+relationship eea2331d-88e9-5241-9c88-8fae9b7596e1
+	fromColumn: VendorTies.'Partner Key'
+	toColumn: PartnerDim.'Partner Key'
