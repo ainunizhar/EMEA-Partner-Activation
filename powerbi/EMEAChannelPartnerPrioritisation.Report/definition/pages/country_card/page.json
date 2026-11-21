@@ -1,0 +1,41 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "country_card",
+  "displayName": "Country card (tooltip)",
+  "displayOption": "FitToPage",
+  "height": 148,
+  "width": 420,
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          },
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#171B42'"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "type": "Tooltip",
+  "pageBinding": {
+    "name": "country_card_binding",
+    "type": "Tooltip",
+    "parameters": []
+  },
+  "visibility": "HiddenInViewMode"
+}

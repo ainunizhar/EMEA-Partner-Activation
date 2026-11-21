@@ -9,7 +9,7 @@ table Partners
 		formatString: #,0
 		lineageTag: b4d4a080-42e9-5911-9f8a-ae7ac8da94e1
 
-	measure 'High Priority' = CALCULATE ( [Partners], Partners[Priority] = "High" )
+	measure 'High Priority' = CALCULATE ( [Partners], Partners[Priority] = "High" ) + 0
 		formatString: #,0
 		lineageTag: cb77d258-07ac-5831-a3ce-14f8713ed22a
 
@@ -339,11 +339,19 @@ table Partners
 		sourceColumn: Is Target
 
 	column 'Score Band'
-		dataType: int64
-		formatString: 0
+		dataType: string
 		lineageTag: 2f73712c-4971-5edc-8e33-0b6be488af7d
 		summarizeBy: none
 		sourceColumn: Score Band
+		sortByColumn: 'Score Band Order'
+
+	column 'Score Band Order'
+		dataType: int64
+		formatString: 0
+		isHidden
+		lineageTag: 5a60a6d5-23c2-5406-aba6-226483be93c2
+		summarizeBy: none
+		sourceColumn: Score Band Order
 
 	column 'Priority Order'
 		dataType: int64
@@ -365,8 +373,9 @@ table Partners
 				    WithId = Table.AddIndexColumn(Typed, "Partner ID", 1, 1, Int64.Type),
 				    WithKey = Table.AddColumn(WithId, "Partner Key", each Text.Trim(Text.Trim([Partner]) & " | " & (if [Country] = null then "" else Text.Trim([Country]))), type text),
 				    TargetFlag = Table.AddColumn(WithKey, "Is Target", each if [Priority] = "Not a Target" then "No" else "Yes", type text),
-				    ScoreBand = Table.AddColumn(TargetFlag, "Score Band", each if [Activation Score] = null then null else Number.RoundDown([Activation Score]), Int64.Type),
-				    PriorityOrder = Table.AddColumn(ScoreBand, "Priority Order", each List.PositionOf({"High", "Medium", "Low", "Not a Target", "Unscored"}, [Priority]) + 1, Int64.Type)
+				    ScoreBand = Table.AddColumn(TargetFlag, "Score Band", each if [Activation Score] = null then "Unscored" else Text.From(Number.RoundDown([Activation Score])), type text),
+				    BandOrder = Table.AddColumn(ScoreBand, "Score Band Order", each if [Activation Score] = null then 99 else Number.RoundDown([Activation Score]), Int64.Type),
+				    PriorityOrder = Table.AddColumn(BandOrder, "Priority Order", each List.PositionOf({"High", "Medium", "Low", "Not a Target", "Unscored"}, [Priority]) + 1, Int64.Type)
 				in
 				    PriorityOrder
 

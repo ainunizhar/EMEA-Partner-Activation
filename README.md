@@ -8,7 +8,8 @@ Activation Score and a services gap across 9 managed-security services, next to 
 
 ## What's inside
 - **Partner constellation:** every country plotted at its real latitude and longitude from a lookup table (a map
-  built from data, no map service). Bubble size = partners, brightness = average Activation Score.
+  built from data, no map service). Bubble size = partners, brightness = average Activation Score; hover a country
+  for its card, click it to filter.
 - **Activation-score distribution by priority:** High 1,070 · Medium 1,241 · Low 205 · Not a Target 54.
 - **Service coverage** across the 9 services.
 - **Top activation targets**, ranked by score.

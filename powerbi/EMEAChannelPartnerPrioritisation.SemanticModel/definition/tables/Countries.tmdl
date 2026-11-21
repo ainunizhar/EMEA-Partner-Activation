@@ -9,6 +9,9 @@ table Countries
 		formatString: 0.0
 		lineageTag: f6be896e-0db5-5bf0-80d9-bf764653853d
 
+	measure 'Country Name' = SELECTEDVALUE ( Countries[Country], "Several countries" )
+		lineageTag: 8ede1f2a-593a-5951-ab0c-ef9c94862b65
+
 	column Country
 		dataType: string
 		lineageTag: f63aa5e3-6428-5e29-a40c-0c66035e966b
