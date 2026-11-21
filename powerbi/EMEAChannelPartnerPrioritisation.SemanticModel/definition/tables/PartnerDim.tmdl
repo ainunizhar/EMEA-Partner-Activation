@@ -1,0 +1,32 @@
+table PartnerDim
+	lineageTag: 71591579-ef74-5edb-8136-e6c88f3ef855
+
+	column 'Partner Key'
+		dataType: string
+		isHidden
+		lineageTag: f5961692-e5d7-582b-97cb-40fde02d72e6
+		summarizeBy: none
+		sourceColumn: Partner Key
+
+	column Partner
+		dataType: string
+		lineageTag: 8decd42e-a2da-57a9-8674-b007f5f74cb8
+		summarizeBy: none
+		sourceColumn: Partner
+
+	column Country
+		dataType: string
+		lineageTag: 7d678ed0-863f-5042-80ca-0a061b5038ee
+		summarizeBy: none
+		sourceColumn: Country
+
+	partition PartnerDim = m
+		mode: import
+		source =
+				let
+				    Source = Partners,
+				    Keys = Table.Distinct(Table.SelectColumns(Source, {"Partner Key", "Partner", "Country"}), {"Partner Key", Comparer.OrdinalIgnoreCase})   // the engine compares keys case-insensitively
+				in
+				    Keys
+
+	annotation PBI_ResultType = Table

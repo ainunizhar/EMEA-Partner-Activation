@@ -1,0 +1,61 @@
+table PartnerServices
+	lineageTag: 2b5a94fa-7655-5c62-b4cb-512f0166fee1
+
+	measure Offering = CALCULATE ( COUNTROWS ( PartnerServices ), PartnerServices[Status] = "Offered" )
+		formatString: #,0
+		lineageTag: c86dd416-db8c-5a8c-a644-5271a88b379d
+
+	measure Missing = CALCULATE ( COUNTROWS ( PartnerServices ), PartnerServices[Status] = "Missing" )
+		formatString: #,0
+		lineageTag: aa5d07a5-c2af-592d-b211-a585592a4b8e
+
+	measure 'Offering %' = DIVIDE ( [Offering], [Offering] + [Missing] )
+		formatString: 0%
+		lineageTag: afc1151f-734a-519f-9c0a-5e8fc5e4cc83
+
+	column 'Partner ID'
+		dataType: int64
+		formatString: 0
+		isHidden
+		lineageTag: d466d0f6-116b-595e-80b8-79057edb9b42
+		summarizeBy: none
+		sourceColumn: Partner ID
+
+	column Service
+		dataType: string
+		lineageTag: 7bb4d13e-88ff-56e8-a1cd-45611a9b7fb7
+		summarizeBy: none
+		sourceColumn: Service
+		sortByColumn: 'Service Order'
+
+	column 'Service Order'
+		dataType: int64
+		formatString: 0
+		isHidden
+		lineageTag: de3440b4-9d58-501a-a54f-c4c505f6f96a
+		summarizeBy: none
+		sourceColumn: Service Order
+
+	column Status
+		dataType: string
+		lineageTag: ec2b3d6f-c254-5bec-8612-ac979cb68358
+		summarizeBy: none
+		sourceColumn: Status
+
+	partition PartnerServices = m
+		mode: import
+		source =
+				let
+				    Source = Partners,
+				    Kept = Table.SelectColumns(Source, {"Partner ID", "DF", "IR", "DFIR", "MDR/EDR", "XDR", "SIEM", "VA/Pen Test", "SOC-as-a-Service", "Compromise Assessment"}),
+				    Unpivoted = Table.UnpivotOtherColumns(Kept, {"Partner ID"}, "Service Code", "Raw Status"),
+				    Lookup = #table(type table [Service Code = text, Service = text, Service Order = Int64.Type], {{"DF", "Forensics", 1}, {"IR", "Incident Resp", 2}, {"DFIR", "DFIR", 3}, {"MDR/EDR", "MDR/EDR", 4}, {"XDR", "XDR", 5}, {"SIEM", "SIEM", 6}, {"VA/Pen Test", "VAPT", 7}, {"SOC-as-a-Service", "SOCaaS", 8}, {"Compromise Assessment", "Compromise", 9}}),
+				    Joined = Table.NestedJoin(Unpivoted, {"Service Code"}, Lookup, {"Service Code"}, "L", JoinKind.LeftOuter),
+				    Expanded = Table.ExpandTableColumn(Joined, "L", {"Service", "Service Order"}),
+				    WithStatus = Table.AddColumn(Expanded, "Status", each if [Raw Status] = "Yes" then "Offered" else if [Raw Status] = "No" then "Missing" else "Unknown", type text),
+				    Result = Table.SelectColumns(WithStatus, {"Partner ID", "Service", "Service Order", "Status"}),
+				    Typed = Table.TransformColumnTypes(Result, {{"Partner ID", Int64.Type}, {"Service", type text}, {"Service Order", Int64.Type}, {"Status", type text}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
